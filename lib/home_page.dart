@@ -80,7 +80,7 @@ class TextFields extends StatelessWidget {
   }
 }
 
-class RowLayout extends StatelessWidget {
+class RowLayout extends StatefulWidget {
   const RowLayout({
     super.key,
     required this.Width,
@@ -91,31 +91,63 @@ class RowLayout extends StatelessWidget {
   final double Height;
 
   @override
+  State<RowLayout> createState() => _RowLayoutState();
+}
+
+class _RowLayoutState extends State<RowLayout> {
+  final celciusController = TextEditingController();
+  final fahrenheitController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    celciusController.addListener(_updateTarget);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         SizedBox(
-          height: Width > 750 ? Height / 4 : Height / 6,
-          width: Width > 750 ? Height / 4 : Width / 6,
-          child: const TextField(
-            decoration: InputDecoration(
+          height: widget.Width > 750 ? widget.Height / 4 : widget.Height / 6,
+          width: widget.Width > 750 ? widget.Height / 4 : widget.Width / 6,
+          child: TextField(
+            controller: celciusController,
+            decoration: const InputDecoration(
                 border: OutlineInputBorder(), hintText: "Celcius"),
           ),
         ),
         SizedBox(
-          height: Width > 750 ? Height / 4 : Height / 6,
-          width: Width > 750 ? Height / 4 : Width / 6,
-          child: const TextField(
+          height: widget.Width > 750 ? widget.Height / 4 : widget.Height / 6,
+          width: widget.Width > 750 ? widget.Height / 4 : widget.Width / 6,
+          child: TextField(
+            controller: fahrenheitController,
             readOnly: true,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               //labelText: "celcius",
-              hintText: "Fahrenheit",
+              hintText: "fahrenheit",
             ),
           ),
         )
       ],
     );
+  }
+
+  @override
+  void _updateTarget() {
+    String celcius = celciusController.text;
+    double fahrenheit = double.parse(celcius);
+    fahrenheit = (9 * fahrenheit) / 5 + 32;
+    fahrenheitController.text = fahrenheit.toString();
+  }
+
+  @override
+  void dispose() {
+    celciusController.removeListener(_updateTarget);
+    celciusController.dispose();
+    fahrenheitController.dispose();
+    super.dispose();
   }
 }
 
