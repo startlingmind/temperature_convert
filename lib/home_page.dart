@@ -10,8 +10,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: Container(
           alignment: Alignment.center,
-          decoration:
-              const BoxDecoration(color: Color.fromARGB(50, 255, 255, 255)),
+          decoration: const BoxDecoration(color: Colors.white30),
           child: Padding(
             padding: Width > 500 && Height > 500
                 ? const EdgeInsets.only(top: 80, bottom: 80)
@@ -21,8 +20,8 @@ class HomePage extends StatelessWidget {
                 decoration:
                     const BoxDecoration(color: Colors.white, boxShadow: [
                   BoxShadow(
-                    blurRadius: 5,
-                    spreadRadius: 5,
+                    blurRadius: 10,
+                    spreadRadius: 10,
                     color: Color.fromARGB(31, 98, 93, 93),
                   ),
                 ]),
@@ -39,8 +38,6 @@ class Conversion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -52,7 +49,7 @@ class Conversion extends StatelessWidget {
               fontSize: 30,
               fontStyle: FontStyle.italic,
               fontFamily: 'Arial',
-              color: Color.fromARGB(82, 41, 34, 34),
+              color: Color.fromARGB(234, 50, 47, 47),
               overflow: TextOverflow.clip),
         ),
         SizedBox(
@@ -125,16 +122,14 @@ class _RowLayoutState extends State<RowLayout> {
             controller: fahrenheitController,
             readOnly: true,
             decoration: const InputDecoration(
-              //labelText: "celcius",
               hintText: "fahrenheit",
             ),
           ),
-        )
+        ),
       ],
     );
   }
 
-  @override
   void _updateTarget() {
     String celcius = celciusController.text;
     double fahrenheit = double.parse(celcius);
@@ -180,11 +175,10 @@ class ColumnLayout extends StatelessWidget {
           child: const TextField(
             readOnly: true,
             decoration: InputDecoration(
-              //labelText: "celcius",
               hintText: "Fahrenheit",
             ),
           ),
-        )
+        ),
       ],
     );
   }
