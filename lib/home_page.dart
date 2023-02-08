@@ -165,7 +165,7 @@ class _RowLayoutState extends State<RowLayout> {
   }
 }
 
-class ColumnLayout extends StatelessWidget {
+class ColumnLayout extends StatefulWidget {
   const ColumnLayout({
     super.key,
     required this.Width,
@@ -176,6 +176,41 @@ class ColumnLayout extends StatelessWidget {
   final double Height;
 
   @override
+  State<ColumnLayout> createState() => _ColumnLayoutState();
+}
+
+class _ColumnLayoutState extends State<ColumnLayout> {
+  final celciusController = TextEditingController();
+  final fahrenheitController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    celciusController.addListener(_updateTarget);
+  }
+
+  void _updateTarget() {
+    String celcius = celciusController.text;
+    double fahrenheit = double.parse(celcius);
+    fahrenheit = (9 * fahrenheit) / 5 + 32;
+    fahrenheitController.text = fahrenheit.toString();
+  }
+
+  // @override
+  void reset() {
+    celciusController.clear();
+    fahrenheitController.clear();
+  }
+
+  @override
+  void dispose() {
+    celciusController.removeListener(_updateTarget);
+    celciusController.dispose();
+    fahrenheitController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -183,16 +218,18 @@ class ColumnLayout extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
-              height: Width > 500 ? Height / 4 : Height / 8,
-              width: Width > 500 ? Height / 4 : Width / 8,
+              height:
+                  widget.Width > 500 ? widget.Height / 4 : widget.Height / 8,
+              width: widget.Width > 500 ? widget.Height / 4 : widget.Width / 8,
               child: const TextField(
                 decoration: InputDecoration(
                     border: OutlineInputBorder(), hintText: "Celcius"),
               ),
             ),
             SizedBox(
-              height: Width > 500 ? Height / 4 : Height / 8,
-              width: Width > 500 ? Height / 4 : Width / 8,
+              height:
+                  widget.Width > 500 ? widget.Height / 4 : widget.Height / 8,
+              width: widget.Width > 500 ? widget.Height / 4 : widget.Width / 8,
               child: const TextField(
                 readOnly: true,
                 decoration: InputDecoration(
@@ -202,6 +239,10 @@ class ColumnLayout extends StatelessWidget {
             ),
           ],
         ),
+        TextButton(
+          onPressed: reset,
+          child: const Text("Reset"),
+        )
         //TextButton(onPressed: reset(), child: Text("Reset"))
       ],
     );
