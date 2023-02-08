@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:temp/model/Temperature.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -96,11 +98,34 @@ class RowLayout extends StatefulWidget {
 class _RowLayoutState extends State<RowLayout> {
   final celciusController = TextEditingController();
   final fahrenheitController = TextEditingController();
+  Temperature temp = Temperature(0, 0);
 
   @override
   void initState() {
     super.initState();
     celciusController.addListener(_updateTarget);
+    checkForTemperatureValue();
+  }
+
+  checkForTemperatureValue() async {
+    Temperature temp = await getTemperatures();
+
+    setState(() {
+      celciusController.text = temp.celcius as String;
+      fahrenheitController.text = temp.fahrenheit as String;
+    });
+  }
+
+  getTemperatures() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    temp.celcius = pref.getDouble('celcius')!;
+    temp.fahrenheit = pref.getDouble('fahrenheit')!;
+    return temp;
+  }
+
+  setTemperatures(Temperature T) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setDouble(T.celcius as String, T.fahrenheit);
   }
 
   @override
