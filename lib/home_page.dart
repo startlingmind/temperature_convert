@@ -56,6 +56,8 @@ class Conversion extends StatelessWidget {
           height: 40,
         ),
         TextFields(),
+        SizedBox(height: 40),
+        // TextButton(onPressed: reset(), child: Text("Reset")),
       ],
     );
   }
@@ -103,29 +105,40 @@ class _RowLayoutState extends State<RowLayout> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return Column(
+      //mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        SizedBox(
-          height: widget.Width > 750 ? widget.Height / 4 : widget.Height / 6,
-          width: widget.Width > 750 ? widget.Height / 4 : widget.Width / 6,
-          child: TextField(
-            controller: celciusController,
-            decoration: const InputDecoration(
-                border: OutlineInputBorder(), hintText: "Celcius"),
-          ),
-        ),
-        SizedBox(
-          height: widget.Width > 750 ? widget.Height / 4 : widget.Height / 6,
-          width: widget.Width > 750 ? widget.Height / 4 : widget.Width / 6,
-          child: TextField(
-            controller: fahrenheitController,
-            readOnly: true,
-            decoration: const InputDecoration(
-              hintText: "fahrenheit",
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            SizedBox(
+              height:
+                  widget.Width > 750 ? widget.Height / 4 : widget.Height / 6,
+              width: widget.Width > 750 ? widget.Height / 4 : widget.Width / 6,
+              child: TextField(
+                controller: celciusController,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), hintText: "Celcius"),
+              ),
             ),
-          ),
+            SizedBox(
+              height:
+                  widget.Width > 750 ? widget.Height / 4 : widget.Height / 6,
+              width: widget.Width > 750 ? widget.Height / 4 : widget.Width / 6,
+              child: TextField(
+                controller: fahrenheitController,
+                readOnly: true,
+                decoration: const InputDecoration(
+                  hintText: "fahrenheit",
+                ),
+              ),
+            ),
+          ],
         ),
+        TextButton(
+          onPressed: reset,
+          child: const Text("Reset"),
+        )
       ],
     );
   }
@@ -135,6 +148,12 @@ class _RowLayoutState extends State<RowLayout> {
     double fahrenheit = double.parse(celcius);
     fahrenheit = (9 * fahrenheit) / 5 + 32;
     fahrenheitController.text = fahrenheit.toString();
+  }
+
+  // @override
+  void reset() {
+    celciusController.clear();
+    fahrenheitController.clear();
   }
 
   @override
@@ -159,26 +178,31 @@ class ColumnLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        SizedBox(
-          height: Width > 500 ? Height / 4 : Height / 8,
-          width: Width > 500 ? Height / 4 : Width / 8,
-          child: const TextField(
-            decoration: InputDecoration(
-                border: OutlineInputBorder(), hintText: "Celcius"),
-          ),
-        ),
-        SizedBox(
-          height: Width > 500 ? Height / 4 : Height / 8,
-          width: Width > 500 ? Height / 4 : Width / 8,
-          child: const TextField(
-            readOnly: true,
-            decoration: InputDecoration(
-              hintText: "Fahrenheit",
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: Width > 500 ? Height / 4 : Height / 8,
+              width: Width > 500 ? Height / 4 : Width / 8,
+              child: const TextField(
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(), hintText: "Celcius"),
+              ),
             ),
-          ),
+            SizedBox(
+              height: Width > 500 ? Height / 4 : Height / 8,
+              width: Width > 500 ? Height / 4 : Width / 8,
+              child: const TextField(
+                readOnly: true,
+                decoration: InputDecoration(
+                  hintText: "Fahrenheit",
+                ),
+              ),
+            ),
+          ],
         ),
+        //TextButton(onPressed: reset(), child: Text("Reset"))
       ],
     );
   }
